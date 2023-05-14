@@ -1,12 +1,32 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import registrationSchema, { RegistrationFormData} from "../validation/registrationSchema";
+
+
+
+// export interface RegisterFormData{
+//   username: string;
+//   email: string;
+//   phone: string;
+//   password: string;
+//   confirm: string;
+// }
 
 const LogInPage = () => {
-  const { handleSubmit, register } =useForm();
-  const onSubmit = (data: any) => {
+  const { handleSubmit, register, control, formState: {errors} } = useForm<RegistrationFormData>({
+    resolver: yupResolver(registrationSchema),
+  });
+  const onSubmit = (data: RegistrationFormData) => {
     console.log(data);
   };
 
+
+  // Inputs are uncontrolled here, but you can use the "control" prop to register them into react-hook-form
+  //if you want to use MUI you hava to do this.
+
+  //validation like compairing the password and confirm password, 
+  //u can use library resolvers you
   return (
     <div>
       LogIn registration form
@@ -14,6 +34,7 @@ const LogInPage = () => {
         <div>
           <label htmlFor="username">Userame</label>
           <input type="text" id="username" {...register("username")} />
+          <div>{errors.username && (<p>errors.username.message</p>)}</div> 
         </div>
         <div>
           <label htmlFor="email">Email</label>

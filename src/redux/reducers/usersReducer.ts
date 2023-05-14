@@ -20,9 +20,12 @@ const usersSlice = createSlice({
     createUser: (state, action:PayloadAction<User>) => {
       state.push(action.payload);
     },
+    updateUserReducer: (state, action: PayloadAction<User[]>) => {
+        return action.payload;
   },
+},
 });
 
 const usersReducer = usersSlice.reducer;
-export const { createUser } = usersSlice.actions;
+export const { createUser, updateUserReducer } = usersSlice.actions;
 export default usersReducer;

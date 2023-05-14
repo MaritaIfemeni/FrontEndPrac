@@ -4,9 +4,9 @@ import { useSelector } from "react-redux";
 
 import { GlobalState } from "../redux/store";
 import useAppSelector from "../hooks/useAppSelector";
-import { createUser } from "../redux/reducers/usersReducer";
+import { createUser, updateUserReducer } from "../redux/reducers/usersReducer";
 import useAppDispatch from "../hooks/useAppDispatch";
-import { create } from "domain";
+import { createProduct, getProductList } from "../redux/reducers/productsReducer";
 
 const HomePage = () => {
   const location = useLocation();
@@ -24,15 +24,46 @@ const HomePage = () => {
   const addUser = () => {
     // const result = createUser({});
     // console.log(result);
-    dispatch(createUser({
-      id: 2,
-      name: "test",
-      avatar: "test",
-      password: "test",
-      email: "test",
-      role: "customer"
-    }));
+    dispatch(
+      createUser({
+        id: 2,
+        name: "test",
+        avatar: "test",
+        password: "test",
+        email: "test",
+        role: "customer",
+      })
+    );
   };
+
+  const products = useAppSelector((state) => state.productsReducer);
+  console.log("products", products);
+  const addProduct = () =>
+  dispatch(createProduct({
+    id: 2,
+    title: "test",
+    price: 100,
+    description: "test",
+  category: {
+    id: 1,
+    name: "test",
+    image: "test",
+  }, 
+ images: [
+  "string, string, string"
+ ]
+  }));
+
+
+
+
+  //Only example not recomended, dont fecth inside the component, should be done inside redux
+  //Ans also not reusable
+   useEffect(() => {
+     fetch("https://api.escuelajs.co/api/v1/products")
+       .then(response => response.json())
+       .then(response => dispatch(getProductList(response)))
+   }, []);
 
   return (
     <div>
@@ -46,7 +77,7 @@ const HomePage = () => {
         </nav>
       </header>
       <main>
-        <button onClick={addUser}>Create new user</button>
+        <button onClick={addProduct}>Create new user</button>
         {!isProductsPage && !isLoginPage && (
           <p>What ever I put here will be shown only in home page and Cart </p>
         )}

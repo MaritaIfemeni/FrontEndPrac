@@ -7,6 +7,7 @@ import useAppSelector from "../hooks/useAppSelector";
 import { createUser, emptyUsersReducer, fetchAllUsers, updateUserReducer, updateOneUser } from "../redux/reducers/usersReducer";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { createProduct, fetchAllProducts, getProductList } from "../redux/reducers/productsReducer";
+import GoogleLoginBtn from "../components/GoogleLoginBtn";
 
 const HomePage = () => {
   const location = useLocation();
@@ -101,7 +102,7 @@ const updateUser = () => {
         </nav>
       </header>
       <main>
-
+ <GoogleLoginBtn />
       {!isProductsPage && !isLoginPage && (
    <div>
 <ul> {users.map((user) => (

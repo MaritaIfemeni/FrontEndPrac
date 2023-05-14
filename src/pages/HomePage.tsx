@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 import { GlobalState } from "../redux/store";
 import useAppSelector from "../hooks/useAppSelector";
-import { createUser, fetchAllUsers, updateUserReducer } from "../redux/reducers/usersReducer";
+import { createUser, emptyUsersReducer, fetchAllUsers, updateUserReducer, updateOneUser } from "../redux/reducers/usersReducer";
 import useAppDispatch from "../hooks/useAppDispatch";
 import { createProduct, fetchAllProducts, getProductList } from "../redux/reducers/productsReducer";
 
@@ -26,7 +26,7 @@ const HomePage = () => {
     // console.log(result);
     dispatch(
       createUser({
-        id: 2,
+        id: 211,
         name: "test",
         avatar: "test",
         password: "test",
@@ -40,7 +40,7 @@ const HomePage = () => {
   console.log("products", products);
   const addProduct = () =>
   dispatch(createProduct({
-    id: 2,
+    id: 211,
     title: "test",
     price: 100,
     description: "test",
@@ -55,10 +55,26 @@ const HomePage = () => {
   }));
 
 useEffect(() => {
-  //dispatch(fetchAllUsers());
-  dispatch(fetchAllProducts());
+  dispatch(fetchAllUsers());
+  //dispatch(fetchAllProducts());
 }, []);
 
+const deletaAllUsers = () => {
+  dispatch(emptyUsersReducer());
+}
+
+const updateUser = () => {
+  dispatch(updateOneUser({
+    id: 1,
+    update: {
+      email: "alia@mail.com",
+      password: "alia",
+      role: "customer",
+      name: "alia",
+      avatar: ""
+    }
+  }))
+}
 
 
 
@@ -85,16 +101,22 @@ useEffect(() => {
         </nav>
       </header>
       <main>
+
       {!isProductsPage && !isLoginPage && (
    <div>
-      <ul>
+<ul> {users.map((user) => (
+          <li key={user.id}>{user.name}</li>
+        ))}</ul>
+
+      {/* <ul>
         {products.map((product) => (
           <li key={product.id}>{product.title}</li>
         ))}
-      </ul>
+      </ul> */}
       <button onClick={addUser}>Create new user</button>
         <button onClick={addProduct}>Create new product</button>
-        
+        <button onClick={deletaAllUsers}>Empty User array</button>
+        <button onClick={updateUser}>Update user</button>
           <p>What ever I put here will be shown only in home page and Cart </p>
         </div>
         )}

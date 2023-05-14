@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import { User } from "../../types/User";
+import { UserUpdate } from "../../types/UserUpdate";
 
 const initialState: User[] = [
   {
@@ -40,6 +41,17 @@ const usersSlice = createSlice({
     updateUserReducer: (state, action: PayloadAction<User[]>) => {
       return action.payload;
     },
+    emptyUsersReducer: (state) => {
+      return [];
+    },
+    updateOneUser: (state, action: PayloadAction<UserUpdate>) => {
+      return state.map((user) => {
+        if (user.id === action.payload.id) {
+          return { ...user, ...action.payload.update };
+        }
+        return user;
+      });
+    },
   },
   extraReducers: (build) => {
     build.addCase(fetchAllUsers.fulfilled, (state, action) => {
@@ -51,5 +63,6 @@ const usersSlice = createSlice({
 });
 
 const usersReducer = usersSlice.reducer;
-export const { createUser, updateUserReducer } = usersSlice.actions;
+export const { createUser, updateUserReducer, emptyUsersReducer, updateOneUser } =
+  usersSlice.actions;
 export default usersReducer;

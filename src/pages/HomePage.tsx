@@ -4,9 +4,9 @@ import { useSelector } from "react-redux";
 
 import { GlobalState } from "../redux/store";
 import useAppSelector from "../hooks/useAppSelector";
-import { createUser, updateUserReducer } from "../redux/reducers/usersReducer";
+import { createUser, fetchAllUsers, updateUserReducer } from "../redux/reducers/usersReducer";
 import useAppDispatch from "../hooks/useAppDispatch";
-import { createProduct, getProductList } from "../redux/reducers/productsReducer";
+import { createProduct, fetchAllProducts, getProductList } from "../redux/reducers/productsReducer";
 
 const HomePage = () => {
   const location = useLocation();
@@ -54,17 +54,25 @@ const HomePage = () => {
  ]
   }));
 
+useEffect(() => {
+  //dispatch(fetchAllUsers());
+  dispatch(fetchAllProducts());
+}, []);
+
+
+
 
 
 
   //Only example not recomended, dont fecth inside the component, should be done inside redux
-  //Ans also not reusable
-   useEffect(() => {
-     fetch("https://api.escuelajs.co/api/v1/products")
-       .then(response => response.json())
-       .then(response => dispatch(getProductList(response)))
-   }, []);
+  //Ans also not reusable and It is hard to test
+  //  useEffect(() => {
+  //    fetch("https://api.escuelajs.co/api/v1/products")
+  //      .then(response => response.json())
+  //      .then(response => dispatch(getProductList(response)))
+  //  }, []);
 
+  // show product list on homepage
   return (
     <div>
       <header>
@@ -77,10 +85,20 @@ const HomePage = () => {
         </nav>
       </header>
       <main>
-        <button onClick={addProduct}>Create new user</button>
-        {!isProductsPage && !isLoginPage && (
+      {!isProductsPage && !isLoginPage && (
+   <div>
+      <ul>
+        {products.map((product) => (
+          <li key={product.id}>{product.title}</li>
+        ))}
+      </ul>
+      <button onClick={addUser}>Create new user</button>
+        <button onClick={addProduct}>Create new product</button>
+        
           <p>What ever I put here will be shown only in home page and Cart </p>
+        </div>
         )}
+
         <Outlet />
       </main>
     </div>

@@ -4,7 +4,7 @@ import React from "react";
 
 const GoogleLoginBtn = () => {
   return (
-    <GoogleOAuthProvider  clientId="1">
+    <GoogleOAuthProvider  clientId= "{process.env.REACT_APP_CLIENTID}">
   <GoogleLogin
     onSuccess={(credentialResponse) => {
       console.log(credentialResponse);

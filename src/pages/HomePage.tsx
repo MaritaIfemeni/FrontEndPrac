@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+
 import { GlobalState } from "../redux/store";
 import useAppSelector from "../hooks/useAppSelector";
 import { createUser } from "../redux/reducers/usersReducer";
+import useAppDispatch from "../hooks/useAppDispatch";
+import { create } from "domain";
 
 const HomePage = () => {
   const location = useLocation();
@@ -17,9 +20,18 @@ const HomePage = () => {
   //const users = useSelector((state:GlobalState) => state.usersReducer);
   const users = useAppSelector((state) => state.usersReducer);
   console.log("users", users);
+  const dispatch = useAppDispatch();
   const addUser = () => {
-    const result = createUser({});
-    console.log(result);
+    // const result = createUser({});
+    // console.log(result);
+    dispatch(createUser({
+      id: 2,
+      name: "test",
+      avatar: "test",
+      password: "test",
+      email: "test",
+      role: "customer"
+    }));
   };
 
   return (

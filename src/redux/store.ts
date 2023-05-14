@@ -11,4 +11,5 @@ const store = configureStore({
 });
 
 export type GlobalState = ReturnType<typeof store.getState>; //typeskript shortcut to get the type of the global state
+export type AppDispatch = typeof store.dispatch; 
 export default store;

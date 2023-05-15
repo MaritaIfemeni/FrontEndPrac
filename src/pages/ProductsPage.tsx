@@ -10,9 +10,9 @@ import {
 } from "../redux/reducers/productsReducer";
 import { Product } from "../types/Product";
 
-const getFilteredList = (users: Product[], search: string) => {
-  return users.filter((user) =>
-    user.title.toLowerCase().includes(search.toLocaleLowerCase())
+const getFilteredList = (products: Product[], search: string) => {
+  return products.filter((product) =>
+    product.title.toLowerCase().includes(search.toLocaleLowerCase())
   );
 };
 
@@ -44,11 +44,29 @@ const ProductsPage = () => {
       dispatch(fetchAllProducts(currentPage - 1));
       dispatch(setCurrentPage(currentPage - 1));
     }
+
+    
+
+    const onSerachChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearch(e.target.value);
+    };
   };
+
+  
+
 
   return (
     <div>
       ProdyctPage
+      <div>
+        <input
+          type="text"
+          name="search"
+          value={search}
+          placeholder="Search"
+          onChange={onSerachChange}
+        />
+      </div>
       <table>
         <thead>
           <tr>
@@ -59,7 +77,7 @@ const ProductsPage = () => {
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
+          {filterProducts.map((product) => (
             <tr key={product.id}>
               <td>{product.title}</td>
               <td>{product.price}</td>

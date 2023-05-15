@@ -56,7 +56,7 @@ export const fetchAllProducts = createAsyncThunk(
   async (page: number) => {
     try {
       const result = await axios.get<Product[]>(
-        `https://api.escuelajs.co/api/v1/products?offset=${page}&limit=2`
+        `https://api.escuelajs.co/api/v1/products?offset=${page}&limit=10`
       );
       return result.data; // returned result would be inside action.payload
     } catch (e) {

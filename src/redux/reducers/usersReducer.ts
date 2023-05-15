@@ -1,4 +1,9 @@
-import { createAsyncThunk, createSlice, isAction, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  isAction,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import { User } from "../../types/User";
 import { UserUpdate } from "../../types/UserUpdate";
@@ -16,7 +21,7 @@ import { UserUpdate } from "../../types/UserUpdate";
 
 const initialState: {
   users: User[];
-  //filterList: User[], 
+  //filterList: User[],
   loading: boolean;
   error: string;
 } = {
@@ -30,14 +35,10 @@ export const fetchAllUsers = createAsyncThunk("fetcAllUsers", async () => {
     const result = await axios.get<User[]>(
       "https://api.escuelajs.co/api/v1/users"
     );
-    return result.data;
+    return result.data; // returned result would be inside action.payload
   } catch (e) {
     const error = e as AxiosError;
-    if (error.request) {
-      console.log("erorr in user request", error.request);
-    } else {
-      console.log(error.response?.data);
-    }
+    return error;
   }
 });
 
@@ -53,12 +54,12 @@ const usersSlice = createSlice({
       //return action.payload;
       return {
         ...state,
-        users: []
-      }
+        users: [],
+      };
     },
     emptyUsersReducer: (state) => {
       //return [];
-      state.users = []
+      state.users = [];
     },
     updateOneUser: (state, action: PayloadAction<UserUpdate>) => {
       const users = state.users.map((user) => {
@@ -70,7 +71,7 @@ const usersSlice = createSlice({
       return {
         ...state,
         users,
-      }
+      };
     },
     sortByEmail: (state, action: PayloadAction<"asc" | "desc">) => {
       if (action.payload === "asc") {
@@ -86,14 +87,29 @@ const usersSlice = createSlice({
     // }
   },
   extraReducers: (build) => {
-    build.addCase(fetchAllUsers.fulfilled, (state, action) => {
-      if (action.payload) {
-        return {
-          ...state,
-          users: action.payload
+    build
+      .addCase(fetchAllUsers.fulfilled, (state, action) => {
+        /*  if (action.payload) {
+                     return {
+                         ...state,
+                         users: action.payload
+                     }
+                 } else {
+                     
+                 } */
+        if (action.payload instanceof AxiosError) {
+          state.error = action.payload.message;
+        } else {
+          state.users = action.payload;
         }
-      }
-    });
+        state.loading = false;
+      })
+      .addCase(fetchAllUsers.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(fetchAllUsers.rejected, (state, action) => {
+        state.error = "Cannot fetch data";
+      });
   },
 });
 

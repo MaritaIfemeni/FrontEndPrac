@@ -16,7 +16,6 @@ import useAppDispatch from "../hooks/useAppDispatch";
 import {
   createProduct,
   fetchAllProducts,
-  getProductList,
 } from "../redux/reducers/productsReducer";
 import GoogleLoginBtn from "../components/GoogleLoginBtn";
 import { User } from "../types/User";
@@ -137,7 +136,7 @@ const HomePage = () => {
             <ul>
               {" "}
               {filterUsers.map((user) => (
-                <li key={user.id}>{user.name}</li>
+                <li key={user.id}>{user.name}</li>  // usememo??
               ))}
             </ul>
 

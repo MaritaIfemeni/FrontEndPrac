@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
@@ -21,13 +22,12 @@ const ProductsPage = () => {
   const currentPage = useAppSelector(
     (state) => state.productsReducer.currentPage
   );
-  //const [page, setCurrentPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
   const filterProducts = getFilteredList(products, search);
 
   useEffect(() => {
     dispatch(fetchAllProducts(currentPage));
-    console.log("products", products);
+    //console.log("products", products);
   }, []);
 
   const onSerachChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +64,11 @@ const ProductsPage = () => {
               <td>{product.title}</td>
               <td>{product.price}</td>
               <td>{product.description}</td>
-              <td>{product.images}</td>
+              <td>
+                <Link to={`/products/${product.id}`}>
+                  <button>details</button>
+                </Link>
+              </td>
             </tr>
           ))}
         </tbody>

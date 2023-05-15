@@ -125,7 +125,7 @@ const HomePage = () => {
         <nav>
           <Link to="/">Home</Link>
           <Link to="/login">Log In</Link>
-          <Link to="/products">Products</Link>
+          <Link to="/products/:id">Products</Link>
           <Link to="/productslist">Products List</Link>
           <Link to="/cart">Cart</Link>
         </nav>

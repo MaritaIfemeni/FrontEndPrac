@@ -16,7 +16,7 @@ const routes: any = createBrowserRouter([
     errorElement: <PageNotFound />,
     children: [
       {
-        path: "/products",
+        path: "/products/:id",
         element: <SingeleProductPage />,
       },
       {

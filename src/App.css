@@ -14,3 +14,25 @@ main {
   align-items: center;
   font-family: "Montserrat", sans-serif;
 }
+
+/* make modal overlay open on the top of the other content */
+  .modal-overlay {
+    z-index: 9999;
+    width: 10em;
+    height: 10em;
+    position: absolute;
+    top: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.modal-box {
+  display: block;
+  background: white;
+  width: 70%;
+  height: 70%;
+  padding: 1rem;
+  border-radius: 1rem;
+}

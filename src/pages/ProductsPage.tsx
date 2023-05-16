@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
 import {
-  createProduct,
   fetchAllProducts,
   setCurrentPage,
 } from "../redux/reducers/productsReducer";
@@ -45,15 +44,10 @@ const ProductsPage = () => {
       dispatch(setCurrentPage(currentPage - 1));
     }
 
-    
-
     const onSerachChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearch(e.target.value);
     };
   };
-
-  
-
 
   return (
     <div>

@@ -5,7 +5,7 @@ import axios from "axios";
 import { Product } from "../types/Product";
 
 
-const SingeleProductPage = () => {
+const SingleProductPage = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product>();
   const [error, setError] = useState("");
@@ -53,4 +53,4 @@ const SingeleProductPage = () => {
   );
 };
 
-export default SingeleProductPage;
+export default SingleProductPage;

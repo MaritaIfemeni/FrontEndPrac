@@ -20,6 +20,9 @@ import {
 import GoogleLoginBtn from "../components/GoogleLoginBtn";
 import { User } from "../types/User";
 
+import Modal from "../components/Modal";
+import useModal from "../hooks/useModal";
+
 const getFilteredList = (users: User[], search: string) => {
   return users.filter(user => user.name.toLowerCase().includes(search.toLocaleLowerCase()))
 }
@@ -119,6 +122,8 @@ const HomePage = () => {
   //  }, []);
 
   // show product list on homepage
+  const { toggle, isOpen } = useModal();
+
   return (
     <div>
       <header>
@@ -127,7 +132,11 @@ const HomePage = () => {
           <Link to="/login">Log In</Link>
           <Link to="/products/:id">Products</Link>
           <Link to="/productslist">Products List</Link>
-          <Link to="/cart">Cart</Link>
+          <button onClick={toggle}>Open Modal</button>
+        <Modal isOpen={isOpen} toggle={toggle}>
+          <p>Modal Content</p>
+          <button onClick={toggle}>Close Modal</button>
+        </Modal>
         </nav>
       </header>
       <main>

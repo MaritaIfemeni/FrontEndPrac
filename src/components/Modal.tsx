@@ -1,8 +1,9 @@
-
 import React, { ReactNode } from 'react';
+
 import useAppDispatch from "../hooks/useAppDispatch";
 import useAppSelector from "../hooks/useAppSelector";
 import { closeModal } from '../redux/reducers/modalReducer';
+import { Product } from '../types/Product';
 
 interface ModalProps {
   children?: ReactNode;
@@ -12,6 +13,7 @@ interface ModalProps {
 
 const Modal = (props: ModalProps) => {
   const isOpen = useAppSelector((state) => state.modalReducer.isOpen);
+  const items = useAppSelector((state) => state.shoppingCartReducer.items);
   const dispatch = useAppDispatch();
 
   if (!props.isOpen) {
@@ -23,13 +25,24 @@ const Modal = (props: ModalProps) => {
   };
 
   return (
-    <>
-      <div className="modal-overlay" onClick={handleCloseModal}>
+      <div className="modal-overlay">
         <div className="modal-box">
           {props.children}
+          {items.length === 0 ? (
+            <p>Your shopping cart is empty.</p>
+          ) : (
+            <ul>
+              {items.map((item: Product) => (
+                <li key={item.id}>
+                  <span>{item.title}</span>
+                  <span>{item.price}</span>
+
+                </li>
+              ))}
+            </ul>
+            )}
         </div>
       </div>
-    </>
   );
 };
 

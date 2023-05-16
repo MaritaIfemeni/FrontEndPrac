@@ -8,6 +8,7 @@ import {
   setCurrentPage,
 } from "../redux/reducers/productsReducer";
 import { Product } from "../types/Product";
+import { addItem } from '../redux/reducers/shoppingCartReducer';
 
 const getFilteredList = (products: Product[], search: string) => {
   return products.filter((product) =>
@@ -31,6 +32,10 @@ const ProductsPage = () => {
 
   const onSerachChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+  };
+
+  const handleAddToCart = (product: Product) => {
+    dispatch(addItem(product));
   };
 
   const handleNextPage = () => {
@@ -80,6 +85,11 @@ const ProductsPage = () => {
                 <Link to={`/products/${product.id}`}>
                   <button>details</button>
                 </Link>
+              </td>
+              <td>
+                <button onClick={() => handleAddToCart(product)}>
+                  Add to cart
+                </button>
               </td>
             </tr>
           ))}

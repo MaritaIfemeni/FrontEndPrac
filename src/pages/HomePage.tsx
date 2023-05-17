@@ -22,6 +22,7 @@ import { User } from "../types/User";
 
 import Modal from "../components/Modal";
 import useModal from "../hooks/useModal";
+import { addOneFav, removeFromFav } from "../redux/reducers/favReducer";
 
 const getFilteredList = (users: User[], search: string) => {
   return users.filter(user => user.name.toLowerCase().includes(search.toLocaleLowerCase()))
@@ -36,6 +37,10 @@ const HomePage = () => {
   const hideProductList = useLocation();
   const users = useAppSelector((state) => state.usersReducer.users);
   const filterUsers = getFilteredList(users, search);
+
+  const { toggle, isOpen } = useModal();
+  const favIds = useAppSelector((state) => state.favReducer)
+  const favList = users.filter(users => favIds.includes(users.id) )
  
   //This wont work: const [filterUsers, setFilterUsers] = useState<User[]>([]);
   // const globalState = useSelector(state => state);
@@ -122,7 +127,20 @@ const HomePage = () => {
   //  }, []);
 
   // show product list on homepage
-  const { toggle, isOpen } = useModal();
+ 
+
+
+const addTofav = (id: number) => {
+  if (favIds.includes(id)) {
+    dispatch(removeFromFav(id))} else {
+
+    dispatch(addOneFav(id))
+}
+}
+
+
+
+
 
   return (
     <div>
@@ -142,18 +160,31 @@ const HomePage = () => {
       <main>
         {!isProductsPage && !isLoginPage && (
           <div>
-            <ul>
+           
               {" "}
               {filterUsers.map((user) => (
-                <li key={user.id}>{user.name}</li>  // usememo??
+                <div>
+                <p key={user.id}>{user.name}</p> 
+                <button onClick={() => (addTofav(user.id))} 
+              >Add Fav</button>
+                </div>
               ))}
-            </ul>
+             
+          <div> FavLis
+            {favList.map((user) => (
+                
+                <p key={user.id}>{user.name}</p>
+              ))}
+
+
+             </div> 
 
             {/* <ul>
         {products.map((product) => (
           <li key={product.id}>{product.title}</li>
         ))}
       </ul> */}
+      
             <GoogleLoginBtn />
             <button onClick={addUser}>Create new user</button>
             <button onClick={addProduct}>Create new product</button>

@@ -25,8 +25,10 @@ import useModal from "../hooks/useModal";
 import { addOneFav, removeFromFav } from "../redux/reducers/favReducer";
 
 const getFilteredList = (users: User[], search: string) => {
-  return users.filter(user => user.name.toLowerCase().includes(search.toLocaleLowerCase()))
-}
+  return users.filter((user) =>
+    user.name.toLowerCase().includes(search.toLocaleLowerCase())
+  );
+};
 
 const HomePage = () => {
   const [sort, setSort] = useState<"asc" | "desc">("asc");
@@ -39,9 +41,9 @@ const HomePage = () => {
   const filterUsers = getFilteredList(users, search);
 
   const { toggle, isOpen } = useModal();
-  const favIds = useAppSelector((state) => state.favReducer)
-  const favList = users.filter(users => favIds.includes(users.id) )
- 
+  const favIds = useAppSelector((state) => state.favReducer);
+  const favList = users.filter((users) => favIds.includes(users.id));
+
   //This wont work: const [filterUsers, setFilterUsers] = useState<User[]>([]);
   // const globalState = useSelector(state => state);
   // console.log("globalState", globalState);
@@ -84,9 +86,8 @@ const HomePage = () => {
     );
 
   useEffect(() => {
-
     dispatch(fetchAllUsers());
- 
+
     //dispatch(fetchAllProducts());
   }, []);
 
@@ -128,20 +129,14 @@ const HomePage = () => {
   //  }, []);
 
   // show product list on homepage
- 
 
-
-const addTofav = (id: number) => {
-  if (favIds.includes(id)) {
-    dispatch(removeFromFav(id))} else {
-
-    dispatch(addOneFav(id))
-}
-}
-
-
-
-
+  const addTofav = (id: number) => {
+    if (favIds.includes(id)) {
+      dispatch(removeFromFav(id));
+    } else {
+      dispatch(addOneFav(id));
+    }
+  };
 
   return (
     <div>
@@ -152,40 +147,34 @@ const addTofav = (id: number) => {
           <Link to="/products/:id">Products</Link>
           <Link to="/productslist">Products List</Link>
           <button onClick={toggle}>Open Modal</button>
-        <Modal isOpen={isOpen} toggle={toggle}>
-          <p>Modal Content</p>
-          <button onClick={toggle}>Close Modal</button>
-        </Modal>
+          <Modal isOpen={isOpen} toggle={toggle}>
+            <p>Modal Content</p>
+            <button onClick={toggle}>Close Modal</button>
+          </Modal>
         </nav>
       </header>
       <main>
         {!isProductsPage && !isLoginPage && (
           <div>
-           
+            {" "}
+            {filterUsers.map((user) => (
+              <div>
+                <p key={user.id}>{user.name}</p>
+                <button onClick={() => addTofav(user.id)}>Add Fav</button>
+              </div>
+            ))}
+            <div>
               {" "}
-              {filterUsers.map((user) => (
-                <div>
-                <p key={user.id}>{user.name}</p> 
-                <button onClick={() => (addTofav(user.id))} 
-              >Add Fav</button>
-                </div>
-              ))}
-             
-          <div> FavLis
-            {favList.map((user) => (
-                
+              FavLis
+              {favList.map((user) => (
                 <p key={user.id}>{user.name}</p>
               ))}
-
-
-             </div> 
-
+            </div>
             {/* <ul>
         {products.map((product) => (
           <li key={product.id}>{product.title}</li>
         ))}
       </ul> */}
-      
             <GoogleLoginBtn />
             <button onClick={addUser}>Create new user</button>
             <button onClick={addProduct}>Create new product</button>
@@ -199,7 +188,6 @@ const addTofav = (id: number) => {
               placeholder="Search"
               onChange={onSerachChange}
             />
-
             <p>
               What ever I put here will be shown only in home page and Cart{" "}
             </p>

@@ -76,7 +76,6 @@ const productsSlice = createSlice({
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
-
   },
   extraReducers: (build) => {
     build
@@ -85,6 +84,7 @@ const productsSlice = createSlice({
           state.error = action.payload.message;
         } else {
           state.products = action.payload;
+          state.filteredProducts = action.payload;
         }
         state.loading = false;
       })
@@ -98,6 +98,5 @@ const productsSlice = createSlice({
 });
 
 const productsReducer = productsSlice.reducer;
-export const { createProduct, setCurrentPage } =
-  productsSlice.actions;
+export const { createProduct, setCurrentPage } = productsSlice.actions;
 export default productsReducer;

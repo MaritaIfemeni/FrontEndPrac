@@ -49,9 +49,7 @@ const ProductsPage = () => {
       dispatch(setCurrentPage(currentPage - 1));
     }
 
-    const onSerachChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearch(e.target.value);
-    };
+
   };
 
   return (

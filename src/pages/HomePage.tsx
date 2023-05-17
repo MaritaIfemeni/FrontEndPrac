@@ -84,6 +84,7 @@ const HomePage = () => {
     );
 
   useEffect(() => {
+
     dispatch(fetchAllUsers());
  
     //dispatch(fetchAllProducts());

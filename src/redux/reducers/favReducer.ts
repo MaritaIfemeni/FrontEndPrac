@@ -8,11 +8,11 @@ const favSlice = createSlice({
     reducers: {
         addOneFav: (state, action:PayloadAction<number>) => {
             state.push(action.payload)
-            /* localStorage.setItem("fav", JSON.stringify(state)) */
+            //localStorage.setItem("fav", JSON.stringify(state)) 
         },
         removeFromFav: (state, action:PayloadAction<number>) => {
             const newState =  state.filter(number => number !== action.payload)
-            /* localStorage.setItem("fav", JSON.stringify(newState)) */
+            //localStorage.setItem("fav", JSON.stringify(newState)) 
             return newState
     },
     }

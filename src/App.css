@@ -18,8 +18,8 @@ main {
 /* make modal overlay open on the top of the other content */
   .modal-overlay {
     z-index: 9999;
-    width: 10em;
-    height: 10em;
+    width: 60%;
+    height: 60%;
     position: absolute;
     top: 0;
     background: rgba(0, 0, 0, 0.7);

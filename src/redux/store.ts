@@ -8,6 +8,7 @@ import favReducer from "./reducers/favReducer";
 
 const favData = JSON.parse(localStorage.getItem("fav") || "")
 
+
 const store = configureStore({
   reducer: {
   productsReducer,

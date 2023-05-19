@@ -25,38 +25,23 @@ import { number } from "yup";
 
 const initialState: {
   products: Product[];
-  currentPage: number;
+  //currentPage: number;
   //productId?: number;
   loading: boolean;
   error: string;
 } = {
   products: [],
-  currentPage: 1,
+  //currentPage: 1,
   loading: false,
   error: "",
 };
 
-// export const fetchProduct = createAsyncThunk(
-//   "fetcAllProducts",
-//   async (id: number) => {
-//     try {
-//       const result = await axios.get<Product[]>(
-//         `https://api.escuelajs.co/api/v1/products/${id}`
-//       );
-//       return result.data; // returned result would be inside action.payload
-//     } catch (e) {
-//       const error = e as AxiosError;
-//       return error;
-//     }
-//   }
-// );
-
 export const fetchAllProducts = createAsyncThunk(
   "fetcAllProducts",
-  async (page: number) => {
+  async () => {
     try {
       const result = await axios.get<Product[]>(
-        `https://api.escuelajs.co/api/v1/products?offset=${page}&limit=10`
+        "https://api.escuelajs.co/api/v1/products/"
       );
       return result.data; // returned result would be inside action.payload
     } catch (e) {
@@ -66,6 +51,21 @@ export const fetchAllProducts = createAsyncThunk(
   }
 );
 
+// export const fetchAllProducts = createAsyncThunk(
+//   "fetcAllProducts",
+//   async (page: number) => {
+//     try {
+//       const result = await axios.get<Product[]>(
+//         `https://api.escuelajs.co/api/v1/products?offset=${page}&limit=10`
+//       );
+//       return result.data; // returned result would be inside action.payload
+//     } catch (e) {
+//       const error = e as AxiosError;
+//       return error;
+//     }
+//   }
+// );
+
 const productsSlice = createSlice({
   name: "products",
   initialState,
@@ -73,9 +73,9 @@ const productsSlice = createSlice({
     createProduct: (state, action: PayloadAction<Product>) => {
       state.products.push(action.payload);
     },
-    setCurrentPage: (state, action: PayloadAction<number>) => {
-      state.currentPage = action.payload;
-    },
+    // setCurrentPage: (state, action: PayloadAction<number>) => {
+    //   state.currentPage = action.payload;
+    // },
   },
   extraReducers: (build) => {
     build
@@ -84,7 +84,6 @@ const productsSlice = createSlice({
           state.error = action.payload.message;
         } else {
           state.products = action.payload;
-          state.filteredProducts = action.payload;
         }
         state.loading = false;
       })
@@ -98,5 +97,5 @@ const productsSlice = createSlice({
 });
 
 const productsReducer = productsSlice.reducer;
-export const { createProduct, setCurrentPage } = productsSlice.actions;
+export const { createProduct } = productsSlice.actions;
 export default productsReducer;
